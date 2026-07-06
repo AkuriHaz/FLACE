@@ -195,33 +195,30 @@ const BubbleManager = {
 
 /* =============================================
    SPRITE ANIMATOR
-   상태 머신: idle1 → trans12 → idle2 → trans21 → (반복)
-   8 FPS / idle 루프 구간에만 말풍선 표시
+   상태 머신: idle1 → transition12 → idle2 → transition21 → (반복)
+   idle 구간에만 말풍선 표시
 
    시퀀스별 개별 PNG 파일 사용 (각 파일 = 가로 프레임 스트립)
-   ─ frameWidth / frameHeight : 이미지 확정 후 업데이트
-   ─ SPRITE_FRAMES : 파일별 프레임 수 → 여기만 수정
+   프레임 수·FPS 변경 시 SPRITE_CONFIG 만 수정
    ============================================= */
 
-// 프레임 수 상수 — 이미지 파일 확정 후 여기만 수정
-const SPRITE_FRAMES = {
-  idle1:   4,   // haz_idle1.png 의 총 프레임 수
-  trans12: 4,   // haz_transition_1to2.png 의 총 프레임 수
-  idle2:   4,   // haz_idle2.png 의 총 프레임 수
-  trans21: 4,   // haz_transition_2to1.png 의 총 프레임 수
+// 시퀀스별 프레임 수 · FPS — 여기만 수정
+const SPRITE_CONFIG = {
+  idle1:        { frames: 2, fps: 8 },
+  transition12: { frames: 4, fps: 8 },
+  idle2:        { frames: 2, fps: 8 },
+  transition21: { frames: 4, fps: 8 },
 };
 
 const SpriteAnimator = {
   config: {
-    fps:         8,
-    frameWidth:  260,   // 프레임 1장 폭(px) — 시트 받으면 업데이트
-    frameHeight: 320,   // 프레임 1장 높이(px) — 시트 받으면 업데이트
-    // 각 시퀀스: 개별 PNG 파일, 가로 방향 프레임 스트립
+    frameWidth:  520,   // 프레임 1장 폭(px)
+    frameHeight: 640,   // 프레임 1장 높이(px)
     sequences: {
-      idle1:   { src: 'assets/character/haz_idle1.png',           frames: SPRITE_FRAMES.idle1,   loop: true  },
-      trans12: { src: 'assets/character/haz_transition_1to2.png', frames: SPRITE_FRAMES.trans12, loop: false },
-      idle2:   { src: 'assets/character/haz_idle2.png',           frames: SPRITE_FRAMES.idle2,   loop: true  },
-      trans21: { src: 'assets/character/haz_transition_2to1.png', frames: SPRITE_FRAMES.trans21, loop: false },
+      idle1:        { src: 'assets/character/haz_idle1.png',           frames: SPRITE_CONFIG.idle1.frames,        fps: SPRITE_CONFIG.idle1.fps,        loop: true  },
+      transition12: { src: 'assets/character/haz_transition_1to2.png', frames: SPRITE_CONFIG.transition12.frames,  fps: SPRITE_CONFIG.transition12.fps,  loop: false },
+      idle2:        { src: 'assets/character/haz_idle2.png',           frames: SPRITE_CONFIG.idle2.frames,         fps: SPRITE_CONFIG.idle2.fps,         loop: true  },
+      transition21: { src: 'assets/character/haz_transition_2to1.png', frames: SPRITE_CONFIG.transition21.frames,  fps: SPRITE_CONFIG.transition21.fps,  loop: false },
     },
     idleMinMs: 3000,
     idleMaxMs: 6000,
@@ -238,10 +235,10 @@ const SpriteAnimator = {
   idleTimer:  null,
 
   NEXT_STATE: {
-    idle1:   'trans12',
-    trans12: 'idle2',
-    idle2:   'trans21',
-    trans21: 'idle1',
+    idle1:        'transition12',
+    transition12: 'idle2',
+    idle2:        'transition21',
+    transition21: 'idle1',
   },
 
   isIdle(state) { return state === 'idle1' || state === 'idle2'; },
@@ -288,8 +285,8 @@ const SpriteAnimator = {
   },
 
   startFrameLoop() {
-    const ms = 1000 / this.config.fps;
     const seq = this.config.sequences[this.state];
+    const ms  = 1000 / seq.fps;
 
     this.frameTimer = setInterval(() => {
       this.drawFrame(this.state, this.frame);
@@ -331,10 +328,10 @@ const SpriteAnimator = {
 
     // 상태별 색상
     const colors = {
-      idle1:   '#7ECFC0',
-      trans12: '#F4845F',
-      idle2:   '#B8A9D9',
-      trans21: '#F4845F',
+      idle1:        '#7ECFC0',
+      transition12: '#F4845F',
+      idle2:        '#B8A9D9',
+      transition21: '#F4845F',
     };
     const bg = colors[state] !== undefined ? colors[state] : '#EAE0D5';
 
