@@ -318,8 +318,9 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   z-index: 0;
   background-color: #F0EAE0;
   background-image: url('../assets/background/hero_bg.png');
-  background-size: auto;      /* 원본 비율 유지 */
-  background-repeat: repeat;  /* 타일 반복 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Layer 1: 말풍선 */
