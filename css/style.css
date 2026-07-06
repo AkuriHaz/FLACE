@@ -300,7 +300,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .hero__layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 460px;
+  min-height: 660px;
 }
 
 /* ── 좌측: 캐릭터 스테이지 ── */
@@ -308,7 +308,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   position: relative;
   overflow: hidden;
   background-color: var(--color-bg-alt);
-  min-height: 460px;
+  min-height: 660px;
 }
 
 /* Layer 0: 배경 이미지 */
@@ -381,6 +381,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 .sprite-canvas {
   display: block;
   image-rendering: pixelated;
+  width: 520px;
+  height: 640px;
 }
 
 /* Layer 3: 태그 버튼 */
@@ -1127,7 +1129,7 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   /* 모바일: 캐릭터(좌) + 말풍선(우) 나란히
      HTML 순서는 bubble→character 이지만 order로 캐릭터를 좌측으로 */
   .hero__left {
-    min-height: 280px;
+    min-height: 380px;
     display: flex;
     align-items: flex-end;
     gap: 0;
@@ -1156,8 +1158,8 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
   }
 
   .sprite-canvas {
-    width: 130px;
-    height: 160px;
+    width: 260px;
+    height: 320px;
   }
 
   /* 말풍선: 우측 절반 */
