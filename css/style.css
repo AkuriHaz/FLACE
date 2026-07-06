@@ -408,12 +408,13 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 
 /* ── 우측: 카드 영역 ── */
 .hero__right {
-  display: flex;
-  flex-direction: column;
-  gap: var(--sp-3);
-  padding: var(--sp-3);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 165px 165px;  /* 660px(히어로) / 4 */
+  align-content: end;               /* 카드 2행을 하단에 정렬, 상단 절반은 빈 공간 */
+  gap: 4px;
+  padding: 4px;
   background-color: var(--color-bg);
-  overflow: hidden;
 }
 
 /* 공모전 슬라이더 카드 */
@@ -425,27 +426,29 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
 }
 
 .hero-card--contest {
-  flex: 1;
-  min-height: 0;
+  grid-column: 2;
+  grid-row: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
   padding: 0;
 }
 
-/* 하단 2 카드 그리드 */
-.hero__bottom-cards {
-  flex: 1;
-  min-height: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: var(--sp-3);
-}
 
-.hero-card--assets,
-.hero-card--imagination {
+.hero-card--assets {
+  grid-column: 1;
+  grid-row: 2;
   display: flex;
   flex-direction: column;
-  min-height: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.hero-card--imagination {
+  grid-column: 2;
+  grid-row: 2;
+  display: flex;
+  flex-direction: column;
   overflow: hidden;
   padding: 0;
 }
@@ -1201,26 +1204,36 @@ button { cursor: pointer; border: none; background: none; font: inherit; }
     z-index: 3;
   }
 
-  /* 우측 카드 영역: 세로 스택 */
+  /* 우측 카드 영역: 모바일에서 세로 flex 스택으로 리셋 */
   .hero__right {
-    padding: var(--sp-4);
-    gap: var(--sp-4);
+    display: flex;
+    flex-direction: column;
+    align-content: unset;
+    gap: var(--sp-3);
+    padding: var(--sp-3);
   }
 
   .hero-card--contest {
-    flex: unset;
+    grid-column: unset;
+    grid-row: unset;
     min-height: 200px;
   }
 
-  /* 하단 카드: 공모전 → 에셋/자료 → 하즈의 공상 순서로 세로 */
-  .hero__bottom-cards {
-    flex: unset;
-    grid-template-columns: 1fr;
+  .hero-card--assets {
+    grid-column: unset;
+    grid-row: unset;
+    min-height: 120px;
   }
 
-  /* 모바일 하단 카드 이미지 영역 최소 높이 */
-  .hero-card__img-wrap {
+  .hero-card--imagination {
+    grid-column: unset;
+    grid-row: unset;
     min-height: 120px;
+  }
+
+  /* 모바일 카드 이미지 영역 최소 높이 */
+  .hero-card__img-wrap {
+    min-height: 100px;
   }
 
   /* ── Sections ── */
